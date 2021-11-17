@@ -1,0 +1,10 @@
+@charset 'UTF-8';
+
+@import '~bootstrap/scss/bootstrap';
+
+@import 'component/_root';
+@import 'component/_variables';
+@import 'component/_mixins';
+
+// 디자인
+@import 'style';

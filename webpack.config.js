@@ -38,7 +38,23 @@ module.exports = {
 				test: /\.js$/,
 				exclude: /node_modules/,
 				use: ["babel-loader"]
-			}
+			},
+      {
+        test: /\.(png|jpg)$/,
+        loader: 'url-loader'
+      }
+      // {
+      //   test: /\.(jpe?g|png|gif|svg)$/i,
+      //   include : path.join(__dirname, 'src/images'),
+      //   use: [
+      //     {
+      //       loader: 'url-loader',
+      //       options: {
+      //         name: 'images/[name].[ext]'
+      //       }
+      //     },
+      //   ]
+      // }
 		]
   },
 

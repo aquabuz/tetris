@@ -1,5 +1,3 @@
-@charset 'UTF-8';
-
-body {
-  background-color: aquamarine;
+.text-wrap {
+  @include d-flex(center, center);
 }
