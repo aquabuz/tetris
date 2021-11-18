@@ -3,6 +3,8 @@ const path = require('path');
 
 module.exports = {
 
+  mode:"development",
+
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'bundle.js'
@@ -11,56 +13,51 @@ module.exports = {
   devServer: {
     host: "localhost",
     port: 8080,
-    // https: true
   },
 
   module: {
     rules: [
-			{
-        // test: /\.scss$/,
-        test: /\.s|css$/,
-          use: [{
-            loader: "style-loader"
-          }, {
-            loader: "css-loader",
-            options: {
-              sourceMap: true
-            }
-          }, {
-            loader: "sass-loader",
-            options: {
-              sourceMap: true
-            }
-          }]
-				// use: ["style-loader", "css-loader", "sass-loader"] // css type을 바꾼 후, style을 적용해야 되므로 순서에 유의할 것 (LIFO)
-			},
       {
 				test: /\.js$/,
 				exclude: /node_modules/,
 				use: ["babel-loader"]
 			},
       {
-        test: /\.(png|jpg)$/,
-        loader: 'url-loader'
-      }
-      // {
-      //   test: /\.(jpe?g|png|gif|svg)$/i,
-      //   include : path.join(__dirname, 'src/images'),
-      //   use: [
-      //     {
-      //       loader: 'url-loader',
-      //       options: {
-      //         name: 'images/[name].[ext]'
-      //       }
-      //     },
-      //   ]
-      // }
+        test: /\.html$/i,
+        loader: "html-loader",
+      },
+      {
+        test: /\.s|css$/,
+          use: [
+            {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+			},
+      {
+        test: /\.(jpe?g|png|gif)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'img/[hash][ext]'
+        }
+      },
 		]
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'myApp',
       template: path.resolve(__dirname, 'src', 'index.html')
     }),
   ]

@@ -1,10 +1,16 @@
 @charset 'UTF-8';
 
-@import '~bootstrap/scss/bootstrap';
-
+// 변수
 @import 'component/_root';
 @import 'component/_variables';
+
+// 부트스트랩
+@import '~bootstrap/scss/bootstrap';
+
+@import 'component/_reset';
+@import 'component/_layout';
 @import 'component/_mixins';
+
 
 // 디자인
 @import 'style';
