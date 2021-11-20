@@ -1,13 +1,30 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
+let htmlPageNames = ['login', 'join'];
+let multipleHtmlPlugins = htmlPageNames.map(name => {
+  return new HtmlWebpackPlugin({
+    template: `./src/${name}.html`, // relative path to the HTML files
+    filename: `${name}.html`, // output HTML files
+    chunks: [`${name}`] // respective JS files
+  })
+});
+
 module.exports = {
 
   mode:"development",
 
+  entry: {
+    main: './src/index.js',
+    login: './src/login.js',
+    join: './src/join.js'
+  },
+
   output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[hash:8].js',
+    sourceMapFilename: '[name].[hash:8].map',
+    chunkFilename: '[id].[hash:8].js'
   },
 
   devServer: {
@@ -58,8 +75,10 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src', 'index.html')
+      template: path.resolve(__dirname, 'src', 'index.html'),
+      filename: 'index.html',
+      chunks: ['main'],
     }),
-  ]
+  ].concat(multipleHtmlPlugins)
 
 }
