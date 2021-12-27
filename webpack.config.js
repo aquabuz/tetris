@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-let htmlPageNames = ['login', 'join'];
+let htmlPageNames = [];
 let multipleHtmlPlugins = htmlPageNames.map(name => {
   return new HtmlWebpackPlugin({
     template: `./src/${name}.html`, // relative path to the HTML files
@@ -16,8 +16,8 @@ module.exports = {
 
   entry: {
     main: './src/index.js',
-    login: './src/login.js',
-    join: './src/join.js'
+    // login: './src/login.js',
+    // join: './src/join.js'
   },
 
   output: {
