@@ -5,6 +5,9 @@ import BLOCKS from './js/blocks.js'
 
 // DOM
 const playground = document.querySelector(".playground > ul");
+const gameText = document.querySelector(".game-text");
+const scoreDisplay = document.querySelector(".score");
+const restartButton = document.querySelector(".game-text button");
 
 // Settings
 const GAME_ROWS = 20;
@@ -58,12 +61,18 @@ function renderBlocks(moveType="") {
         const y = block[1] + top;
         const target = playground.childNodes[y] ? playground.childNodes[y].childNodes[0].childNodes[x] : null;
         const inAvailable = checkEmpty(target);
+        // inAvailable boolean
         if (inAvailable) {
             target.classList.add(type, "moving")
         } else {
             tempMovingItem = { ...movingItem }
+            // game over
+            if(moveType == "retry") {
+                clearInterval(downInterval)
+                showGameoverText()
+            }
             setTimeout(() => {
-                renderBlocks()
+                renderBlocks("retry")
                 if (moveType === "top") {
                     seizeBlock()
                 }
@@ -82,6 +91,27 @@ function seizeBlock() {
         moving.classList.remove("moving");
         moving.classList.add("seized");
     })
+    checkMatch()
+}
+
+function checkMatch() {
+    const childNodes = playground.childNodes;
+
+    childNodes.forEach(child => {
+        let matched = true;
+        child.children[0].childNodes.forEach(li => {
+            if (!li.classList.contains("seized")) {
+                matched = false
+            }
+        })
+        if (matched) {
+            child.remove()
+            prependNewLine()
+            score++
+            scoreDisplay.innerHTML = score
+        }
+    })
+
     generaterBlock()
 }
 
@@ -126,6 +156,10 @@ function dropBlock() {
     }, 10);
 }
 
+function showGameoverText() {
+    gameText.style.display = "flex"
+}
+
 // event handling
 document.addEventListener("keydown", e => {
     switch(e.keyCode) {
@@ -148,4 +182,10 @@ document.addEventListener("keydown", e => {
             break;
     }
     // console.log(e);
+})
+
+restartButton.addEventListener("click", () => {
+    playground.innerHTML = "";
+    gameText.style.display = "none";
+    init()
 })
